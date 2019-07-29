@@ -1,0 +1,13 @@
+{
+  "publisher": "twitter",
+  "dataFormat": "original",
+  "fromDate": "201901010000",
+  "toDate": "201901150000",
+  "title": "my-job-123",
+  "rules": [
+    {
+      "tag": "outdoors",
+      "value": "#outsideisfree OR #optoutside"
+    }
+  ]
+}
