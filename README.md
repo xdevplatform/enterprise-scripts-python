@@ -2,9 +2,10 @@
 Sample Python code that makes it easy to get started with the Twitter Enterprise APIs. These are intended to be simple, easy-to-use, command line scripts for anyone familiar with Python to begin making requests to the APIs.
 
 ## Features
-- Customize a request by passing any of the supported flags (parameters) when invoking the script(s)
+- Customize requests by passing any of the supported flags (parameters) when invoking the scripts
 - The `search.py` script supports both 'data' and 'counts' (`-c`) requests as well as auto pagination (`-n` flag)
 - The PowerTrack `get_stream.py` script supports a custom chunksize (`-c` flag) – useful when testing low volume streams
+- Generate a bearer token for use with the /totals endpoint of the Engagement API (`/Engagement-API/generate_bearer_token.py`)
 - Supports pretty printing the results either by default or through an optional flag (`-p`)
 
 ## Dependencies
