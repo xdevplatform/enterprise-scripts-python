@@ -1,4 +1,4 @@
-# PUT /jobs/uuid - Accepts or rejects a historical job in the "quoted" stage.
+# PUT /jobs/uuid - Accept (-a) or reject (-r) a historical job in the "quoted" stage.
 import argparse
 import json
 import os

@@ -1,4 +1,4 @@
-# Creates a new job with the Historical PowerTrack API
+# GET /jobs/uuid - Monitors the status of a historical job.
 import argparse
 import json
 import os

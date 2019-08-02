@@ -1,6 +1,12 @@
 # enterprise-scripts-python
 Sample Python code that makes it easy to get started with the Twitter Enterprise APIs. These are intended to be simple, easy-to-use, command line scripts for anyone familiar with Python to begin making requests to the APIs.
 
+## Features
+- Customize a request by passing any of the supported flags (parameters) when invoking the script(s)
+- The `search.py` script supports both 'data' and 'counts' (`-c`) requests as well as auto pagination (`-n` flag)
+- The PowerTrack `get_stream.py` script supports a custom chunksize (`-c` flag) – useful when testing low volume streams
+- Supports pretty printing the results either by default or through an optional flag (`-p`)
+
 ## Dependencies
 - Python (recommended >= 3.6 for f-string support)
 - Twitter Enterprise API Account (e.g., console.gnip.com access)
@@ -9,14 +15,14 @@ Sample Python code that makes it easy to get started with the Twitter Enterprise
   - requests_oauthlib
   - python-dotenv
 
-Run `pip install requirements.txt` to install the library dependenices.
+Run `pip install requirements.txt` to install the third-party library dependenices.
 
 ## Supported APIs
 Below are the API that are currently supported by this collection of scripts (click product name to jump to that section of README):
 1. [Engagement API](#engagement-api) - Get detailed impression and engagement metrics by Tweet ID ([link to docs](https://developer.twitter.com/en/docs/metrics/get-tweet-engagement/overview))
 2. [Historical PowerTrack](#historical-powertrack) - Get batch historical Tweets ([link to docs](https://developer.twitter.com/en/docs/tweets/batch-historical/overview))
 3. [PowerTrack](#powertrack) - Filter realtime Tweets ([link to docs](https://developer.twitter.com/en/docs/tweets/filter-realtime/overview/powertrack-api))
-4. [Search API](#search-api) - 30-Day and Full-Archive APIs to search for Tweets ([link to docs](https://developer.twitter.com/en/docs/tweets/search/overview/enterprise))
+4. [Search API](#search-api-30-day-and-full-archive) - 30-Day and Full-Archive APIs to search for Tweets ([link to docs](https://developer.twitter.com/en/docs/tweets/search/overview/enterprise))
 
 ## Authorization and Authentication
 These scripts are built to work with the paid, Enterprise tier of Twitter APIs. To use the scripts, you must have authorization to access the Enterprise APIs as part of a "trial" or ongoing contract. If you have access to the [Gnip Console](console.gnip.com) and one or more of the APIs listed above, then you should be set. Otherwise, you can [apply for access here](https://developer.twitter.com/en/enterprise-application).

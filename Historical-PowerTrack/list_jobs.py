@@ -1,4 +1,4 @@
-# POST /jobs - Creates a new Historical PowerTrack job
+# GET /jobs - List all jobs that are not expired for the given account
 import argparse
 import json
 import os
