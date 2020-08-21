@@ -13,6 +13,7 @@ import urllib.parse
 
 oauth_endpoint = 'https://api.twitter.com/oauth2/token'
 
+
 def main():
     # Prompt user to enter consumer key and consumer secret
     consumer_key = input("Enter your consumer key: ")
@@ -23,6 +24,7 @@ def main():
     except requests.exceptions.RequestException as e:
         print(e)
         sys.exit(120)
+
 
 def generate_bearer_token(consumer_key, consumer_secret):
     """
@@ -39,7 +41,7 @@ def generate_bearer_token(consumer_key, consumer_secret):
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
     }
     response = requests.post(oauth_endpoint, headers=headers, data={"grant_type": "client_credentials"})
-    
+  
     return response
 
 if __name__ == '__main__':

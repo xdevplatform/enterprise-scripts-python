@@ -36,23 +36,24 @@ def main():
         chunksize = args.chunksize
     else:
         chunksize = 10000
-    try:
+    timeout = 0
+    # Reconnect logic with exponential backoff
+    while True:
         get_stream(endpoint, chunksize)
-    except ssl.SSLError as e:
-        sys.stderr.write(f"Connection failed: {e}\n")
+        time.sleep(2 ** timeout)
+        timeout += 1
 
 
 def get_stream(endpoint, chunksize):
     response = requests.get(url=endpoint, auth=(USERNAME, PASSWORD), stream=True, headers=headers)
-    while True:
-        for chunk in response.iter_content(chunksize, decode_unicode=True):  # Content gets decoded
-            if "\n" or "\r" in chunk:  # Handles keep-alive new lines
-                print(chunk)  # Prints keep-alive signal to stdout
-            else:
-                try:
-                    print(json.loads(chunk))
-                except ValueError:
-                    sys.stderr.write(f"Error processing JSON: {ValueError} {chunk}\n")
+    for chunk in response.iter_content(chunksize, decode_unicode=True):  # Content gets decoded
+        if "\n" or "\r" in chunk:  # Handles keep-alive new lines
+            print(chunk)  # Prints keep-alive signal to stdout
+        else:
+            try:
+                print(json.loads(chunk))
+            except ValueError:
+                sys.stderr.write(f"Error processing JSON: {ValueError} {chunk}\n")
 
 
 if __name__ == '__main__':

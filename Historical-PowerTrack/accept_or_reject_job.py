@@ -14,7 +14,7 @@ USERNAME = os.getenv("USERNAME")
 PASSWORD = os.getenv("PASSWORD")
 ACCOUNT_NAME = os.getenv("ACCOUNT_NAME")
 
-# Argparse for cli options. Run `python engagement_totals.py -h` to see list of available arguments.
+# Argparse for cli options. Run `python accept_or_reject_job.py -h` to see list of available arguments.
 parser = argparse.ArgumentParser()
 parser.add_argument("-j", "--job_url", required=True,
                     help="Pass the `jobURL` value from the 'create_job' phase.")

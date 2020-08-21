@@ -1,6 +1,6 @@
 # GET /results - Retrieves information about a completed Historical PowerTrack job,
 # including a list of URLs that correspond to the data files generated for a completed job.
-# These URLs will be used to download the Twitter data files.
+# Use `download_job.py` script to actually download the data
 
 import argparse
 import json
@@ -17,7 +17,7 @@ USERNAME = os.getenv("USERNAME")
 PASSWORD = os.getenv("PASSWORD")
 ACCOUNT_NAME = os.getenv("ACCOUNT_NAME")
 
-# Argparse for cli options. Run `python engagement_totals.py -h` to see list of available arguments.
+# Argparse for cli options. Run `python job_results.py -h` to see list of available arguments.
 parser = argparse.ArgumentParser()
 parser.add_argument("-d", "--data_url", required=True,
                     help="Pass the `dataURL` value returned in the response from a completed job.")
