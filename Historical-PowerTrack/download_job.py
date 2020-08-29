@@ -17,37 +17,39 @@ ACCOUNT_NAME = os.getenv("ACCOUNT_NAME")
 # Argparse for cli options. Run `python download_job.py -h` to see list of available arguments.
 parser = argparse.ArgumentParser()
 parser.add_argument("-d", "--data_url", required=True,
-                    help="Pass the `dataURL` value returned in the response from a completed job.")
+                    help="Pass the `dataURL` value returned in the response from a completed job. URL ends in /results.json")
 args = parser.parse_args()
 
 
 def main():
     data_url = args.data_url
     job_uuid = data_url.rsplit('/', 2)[1]
-    print(job_uuid)
 
     urls = get_url_list(data_url)
     total_files = len(urls)
     files_retrieved = 0
 
+    # Create downloads directory 
     if not os.path.exists('./downloads'):
         os.makedirs('./downloads')
 
     for link in urls:
-        data = get_data(link)
+        file_name = create_file_name(link, job_uuid)
         files_retrieved += 1
-        # Verbose - comment out line below to remove verbose print statement
-        print(f"Downloading file {files_retrieved}/{total_files}...")
-        with open(f"./downloads/{create_file_name(link, job_uuid)}", "w") as outfile:
-            json.dump(data, outfile)
+        # Downloads file if it doesn't exist (helps if restarting download due to error)
+        if not os.path.isfile(f"./downloads/{file_name}"):
+            data = get_data(link)
+            # Verbose - comment out line below to remove verbose print statement
+            print(f"Downloading file {files_retrieved}/{total_files}...")
+            with open(f"./downloads/{file_name}", "w") as outfile:
+                json.dump(data, outfile)
 
 
-# Function that gets the urls that have the Tweets data
+# Function that gets the urls containing the actual Tweet data
 def get_url_list(url):
     response = requests.get(url, auth=(USERNAME, PASSWORD))
     if response.status_code is not 200:
-        print("The request returned an error: %s".format(response.text))
-
+        print(f"The request returned an error: {response.text}")
     parsed = json.loads(response.text)
     return parsed['urlList']
 
@@ -59,6 +61,8 @@ def get_data(url):
     }
 
     response = requests.get(url, headers=headers)
+    if response.status_code is not 200:
+        print(f"The request returned an error: {response.text}")
     result = gzip.decompress(response.content)
     list_items = result.decode('utf-8').split('\n')
     # list items contains a list of strings
