@@ -123,22 +123,6 @@ To create a job, you must first go in and define your job by editing the 'histor
 5. `title` - the title of your job, must be unique to your account.
 6. `rules` - An array of PowerTrack rules (up to 1,000) that determines which data is returning by your job.
 
-### Monitor a job
-After a job is created, you can monitor the current status of a specific job.
-
-Run the command:
-```
-$ python monitor_job -j <jobURL>
-```
-
-### Get jobs (list all jobs)
-Retrieves details for all historical PowerTrack jobs which are not expired for the given account.
-
-Run the command:
-```
-$ python list_jobs.py
-```
-
 ### Accept or reject a job
 Choose to accept or reject a job that is in the 'quoted' stage.
 
@@ -151,6 +135,21 @@ To reject a job, run the command:
 $ python accept_or_reject_job.py -j <jobURL> -r
 ```
 
+### Monitor a job
+After a job is created, you can monitor the current status of a specific job.
+
+Run the command:
+```
+$ python monitor_job -j <jobURL>
+```
+### Download Twitter data files
+When job status equals 'delivered', the files are available for download. The `download_job.py` script will retrieve the list of URLs and begin downloading each file to a './downloads' folder. If the job is interrupted at any point, simply restart the download script and it will only download new files (skipping over previously downloaded files). (_Note:_ the required 'dataURL' argument is returned by the response of a completed job from 'monitor_job.py' request.)
+
+Run the command:
+```
+$ python download_job.py -d <dataURL>
+```
+
 ### Get job results (list of S3 URLs)
 Retrieves info about a completed Historical PowerTrack job, including a list of URLs that correspond to the data files generated for a completed job. (_Note:_ the required 'dataURL' is returned by the response of a completed job from 'monitor_job.py' request.)
 
@@ -158,7 +157,14 @@ Run the command:
 ```
 $ python job_results.py -d <dataURL>
 ```
-The next step is to download the actual data files using the list of URLs provided ('urlList').
+
+### Get jobs (list all jobs)
+Retrieves details for all historical PowerTrack jobs which are not expired for the given account.
+
+Run the command:
+```
+$ python list_jobs.py
+```
 
 ## PowerTrack 
 This streaming API enables you to filter the full Twitter firehose in realtime.
