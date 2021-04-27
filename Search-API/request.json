@@ -1,0 +1,6 @@
+{
+  "query": "from:TwitterDev",
+  "maxResults": "10",
+  "fromDate": "202101010000",
+  "toDate": "202102010000"
+}

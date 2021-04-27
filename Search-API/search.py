@@ -13,7 +13,9 @@ load_dotenv(verbose=True)  # Throws error if it can't find .env file
 parser = argparse.ArgumentParser()
 parser.add_argument("-a", "--archive", required=True, choices=['30day', 'fullarchive'],
                     help="Specify '30day' or 'fullarchive' API to search against")
-parser.add_argument("-q", "--query", required=True, help="A valid query up to 2,048 characters")
+parser.add_argument("-r", "--request_file", help="Use json file for request body",
+                    action="store_true")
+parser.add_argument("-q", "--query", help="A valid query up to 2,048 characters")
 parser.add_argument("-c", "--counts", help="Make request to 'counts' endpoint", action="store_true")
 parser.add_argument("-f", "--from_date", help="Oldest date from which results will be provided")
 parser.add_argument("-t", "--to_date", help="Most recent date to which results will be provided")
@@ -34,7 +36,11 @@ ENDPOINT_LABEL = os.getenv("SEARCH_LABEL")
 
 def main():
     endpoint = determine_endpoint(args.archive)
-    request_body = build_request_body(args.query)
+    # Build request body from file if it exists, else use cli args
+    if args.request_file is True:
+        request_body = build_request_from_file("request.json")
+    else:
+        request_body = build_request_body(args.query)
     # Make the first request
     try:
         first_response = requests.post(url=endpoint, auth=(USERNAME, PASSWORD), json=request_body)
@@ -89,6 +95,12 @@ def build_request_body(query):
         request_body.update(maxResults=args.max_results)
     if args.bucket:
         request_body.update(bucket=args.bucket)
+
+    return request_body
+
+def build_request_from_file(request_file):
+    with open("request.json", "r") as read_file:
+        request_body = json.load(read_file)
 
     return request_body
 
