@@ -16,7 +16,7 @@ Sample Python code that makes it easy to get started with the Twitter Enterprise
   - requests_oauthlib
   - python-dotenv
 
-Run `pip install requirements.txt` to install the third-party library dependenices.
+Run `pip install -r requirements.txt` to install the third-party library dependenices.
 
 ## Supported APIs
 Below are the API that are currently supported by this collection of scripts (click product name to jump to that section of README):
