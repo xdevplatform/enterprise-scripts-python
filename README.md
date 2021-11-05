@@ -108,7 +108,7 @@ $ python engagement_historical.py -t <TweetID_1> <TweetID_2>
 ```
 Owned Tweets (specific metrics, start, and end date):
 ```
-$ python engagement_historical.py -t <TweetID_1> <TweetID_2> -s 2019-01-01T12:00:00Z - e 2019-01-28T12:00:00Z -m impressions engagements
+$ python engagement_historical.py -t <TweetID_1> <TweetID_2> -s 2019-01-01T12:00:00Z -e 2019-01-28T12:00:00Z -m impressions engagements
 ```
 
 ## Historical PowerTrack
