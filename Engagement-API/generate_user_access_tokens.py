@@ -6,18 +6,16 @@
 # This script generates a user's access tokens which can be used to make requests on behalf of the user, also known as OAuth 1.0a (user context) authentication method
 # Docs: https://developer.twitter.com/en/docs/authentication/oauth-1-0a/obtaining-user-access-tokens
 
-import os
 import sys
 import requests
 from requests_oauthlib import OAuth1Session
-from dotenv import load_dotenv
-load_dotenv(verbose=True)  # Throws error if it can't find .env file
 
-# Retrieves and stores credential information from the '.env' file
-CONSUMER_KEY = os.getenv("TWITTER_CONSUMER_KEY")
-CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET")
-ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
-TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
+#Prompt developer to enter App credentials
+print("Enter the credentials for your developer App below.")
+CONSUMER_KEY = input("Consumer key: ")
+CONSUMER_SECRET = input("Consumer secret: ")
+ACCESS_TOKEN = input("Access token: ")
+TOKEN_SECRET = input("Access token secret: ")
 
 # Request an OAuth Request Token. This is the first step of the 3-legged OAuth flow. This generates a token that you can use to request user authorization for access.
 def request_token():
@@ -40,7 +38,7 @@ def request_token():
 def get_user_authorization(resource_owner_oauth_token):
 
     authorization_url = f"https://api.twitter.com/oauth/authorize?oauth_token={resource_owner_oauth_token}"
-    authorization_pin = input(f"Copy and past the following URL in your web browser to grant access to this application: {authorization_url} \n Paste PIN here: ")
+    authorization_pin = input(f" \n Send the following URL to the user you want to generate access tokens for. \n → {authorization_url} \n This URL will allow the user to authorize your application and generate a PIN. \n Paste PIN here: ")
 
     return(authorization_pin)
 
@@ -65,12 +63,11 @@ def get_user_access_tokens(resource_owner_oauth_token, resource_owner_oauth_toke
             print(e)
             sys.exit(120)
 
-    print(access_token, access_token_secret, user_id, screen_name)
     return(access_token, access_token_secret, user_id, screen_name)
 
 if __name__ == '__main__':
     resource_owner_oauth_token, resource_owner_oauth_token_secret = request_token()
     authorization_pin = get_user_authorization(resource_owner_oauth_token)
     access_token, access_token_secret, user_id, screen_name = get_user_access_tokens(resource_owner_oauth_token, resource_owner_oauth_token_secret, authorization_pin)
-    
+    print(f"\n User @handle: {screen_name}", f"\n User ID: {user_id}", f"\n User access token: {access_token}", f" \n User access token secret: {access_token_secret} \n")
     
