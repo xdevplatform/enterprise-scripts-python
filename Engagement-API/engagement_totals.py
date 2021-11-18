@@ -56,7 +56,7 @@ def main():
 def build_request_body(tweet_ids):
     # Initialize request body with Tweet IDs and groupings (unowned metrics by default)
     request_body = {"tweet_ids": tweet_ids,
-                    "engagement_types": ["favorites", "replies", "retweets", "video_views"],
+                    "engagement_types": ["favorites", "replies", "retweets", "quote_tweets", "video_views"],
                     "groupings":
                         {"per-tweet-metrics": {"group_by": ["tweet.id", "engagement.type"]}}
                     }
