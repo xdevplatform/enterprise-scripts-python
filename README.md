@@ -8,6 +8,7 @@ Sample Python code that makes it easy to get started with the Twitter Enterprise
 - The `search.py` script supports both 'data' and 'counts' (`-c`) requests as well as auto pagination (`-n` flag)
 - The PowerTrack `get_stream.py` script supports a custom chunksize (`-c` flag) – useful when testing low volume streams
 - Generate a bearer token for use with the /totals endpoint of the Engagement API (`/Engagement-API/generate_bearer_token.py`)
+- Generate user access tokens to authorize requests to the Engagement API and access user-owned private  metrics (`/Engagement-API/generate_user_access_tokens.py`)
 - Supports pretty printing the results either by default or through an optional flag (`-p`)
 
 ## Dependencies
@@ -56,7 +57,25 @@ TWITTER_ACCESS_TOKEN_SECRET=""
 TWITTER_BEARER_TOKEN=""
 ```
 
-Note: The Engagement-API/generate_bearer_token.py script can be used to generate a bearer token. You can then store that returned value in the '.env' file as shown above.
+### Authenticating with the Engagement API 
+
+Two authentication methods are available with the Engagement API: [OAuth 1.0a](https://developer.twitter.com/en/docs/tutorials/authenticating-with-twitter-api-for-enterprise/authentication-method-overview#oauth1.0a) and [OAuth 2.0 Bearer Token](https://developer.twitter.com/en/docs/tutorials/authenticating-with-twitter-api-for-enterprise/authentication-method-overview#oauth2.0).
+
+**OAuth 2.0 Bearer Token** allows you to access publicly available engagement metrics. This authentication method can be used to get total counts for Favorites (aka Likes), Retweets, Quote Tweets, Replies, and video views for any publicly available Tweets when making requests to the /totals endpoint. 
+
+→ Use the `/Engagement-API/generate_bearer_token.py` script to generate the required bearer token. You can then store that returned value in the '.env' file as shown above.
+
+**OAuth 1.0a** allows you to make requests on behalf of a user and access private engagement metrics that are owned by the user in question. 
+
+This authentication method is required for:
+* All requests sent to the /28hr endpoint and /historical endpoint
+* Accessing any of the following private metrics: Impressions, Engagements, Media Views, Media Engagements, URL Clicks, Hashtag Clicks, Detail Expands, Permalink Clicks, App Install Attempts, App Opens, Email Tweet, User Follows, and User Profile Clicks
+
+→ Use the `/Engagement-API/generate_user_access_tokens.py` script to get a user to authorize your application and generate the required Access Tokens (user's access token and access token secret). You can then store the returned Access Tokens, along with your developer App's consumer key and secret in the '.env' file as shown above.
+
+Note: If you are sending a request on behalf of your own Twitter account (in other words, the account that owns your developer App), you can generate the required Access Tokens directly from within the [developer portal](https://developer.twitter.com/en/portal/projects-and-apps).
+
+[Find out more](https://developer.twitter.com/en/docs/twitter-api/enterprise/engagement-api/guides/authenticating-with-the-engagement-api) about authenticating with the Engagement API.
 
 ## Engagement API
 
