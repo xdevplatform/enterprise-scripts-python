@@ -48,6 +48,7 @@ PASSWORD=""
 ACCOUNT_NAME=""
 POWERTRACK_LABEL=""
 SEARCH_LABEL=""
+SEARCH_ARCHIVE="" # 'fullarchive' or '30day'
 
 # Twitter app creds for Engagement API
 TWITTER_CONSUMER_KEY=""
@@ -282,8 +283,7 @@ Query for data or counts against the past 30 days or the full archive public Twe
 Run `$ python search.py --help` to see the full list of arguments for this script. Here they are for reference:
 
 ```shell
-  -a {30day,fullarchive}, --archive {30day,fullarchive}
-                        Specify '30day' or 'fullarchive' API to search against
+  -r, --request_file    Use json file for request body
   -q QUERY, --query QUERY
                         A valid query up to 2,048 characters
   -c, --counts          Make request to 'counts' endpoint
@@ -301,30 +301,40 @@ Run `$ python search.py --help` to see the full list of arguments for this scrip
   -p, --pretty_print    Pretty print the results
 ```
 
-At a minimum, you must specify provide a value for the archive (`-a`) and query (`-q`) arguments. These are required arguments.
+At a minimum, you must specify pass the `-r` flag for the request file or the query (`-q`) argument. One of the two arguments is required to run the script.
+
+### Search API Tweet type (additional script)
+
+There's a secondary Python script available, `search_tweet_type.py`, that contains a function to classify the type of Tweets returned by the search results. This script only supports a data request (not counts), parses the Tweet payload for select fields, and adds the derived "Tweet type" classification to the response output. It also checks for the presense of an "extended Tweet" and will read the `full_text` object if necessary (to avoid truncated Tweet text).
+
+Run the command:
+
+```shell
+$ python search_tweet_type.py -r
+```
 
 ### Example commands
 
 30-Day data request (no optional args passed):
 
 ```shell
-$ python search.py -a 30day -q from:jack
+$ python search.py -q from:jack
 ```
 
-30-Day counts request:
+30-Day counts request specified by request file (request.json):
 
 ```shell
-$ python search.py -a 30day -q from:jack -c
+$ python search.py -r -c
 ```
 
 Full-archive data request with specifc dates and maxResults of '500':
 
 ```shell
-$ python search.py -a fullarchive -q 'python OR ruby' -f 201907010000 -t 201907072359 -m 500
+$ python search.py -q 'python OR ruby' -f 201907010000 -t 201907072359 -m 500
 ```
 
 Full-archive counts requests that paginates full data set:
 
 ```shell
-$ python search.py -a fullarchive -q 'python OR ruby' -f 201904010000 -t 201907010000 -c -b day -n
+$ python search.py -q 'python OR ruby' -f 201904010000 -t 201907010000 -c -b day -n
 ```

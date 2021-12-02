@@ -8,7 +8,7 @@ import requests
 from dotenv import load_dotenv
 load_dotenv(verbose=True)  # Throws error if it can't find .env file
 
-# Argparse for cli options. Run `python engagement_totals.py -h` to see the list of arguments.
+# Argparse for cli options. Run `python search.py -h` to see the list of arguments.
 parser = argparse.ArgumentParser()
 parser.add_argument("-r", "--request_file", help="Use json file for request body",
                     action="store_true")
